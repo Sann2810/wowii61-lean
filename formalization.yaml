@@ -1,0 +1,129 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Written on the Wall II, Conjecture 61: f(G) ≥ residue(G) + ⌈diam(G)/3⌉"
+  description: >-
+    A complete Lean 4 / Mathlib proof of Conjecture 61 of DeLaViña's "Written on
+    the Wall II" (conjectures of Graffiti.pc): for every finite simple connected
+    graph G on at least two vertices, the number f(G) of vertices of a largest
+    induced forest satisfies f(G) ≥ residue(G) + ⌈diam(G)/3⌉, where residue(G) is
+    the Havel–Hakimi residue of the degree sequence. The formal statement is the
+    one recorded in google-deepmind/formal-conjectures
+    (WrittenOnTheWallII/GraphConjecture61.lean, theorem `conjecture61`, tagged
+    research open there on 26 November 2026), copied verbatim together with its
+    definitions of the residue and of `largestInducedForestSize`. The proof marks
+    ⌈diam/3⌉ disjoint edges on a diametral geodesic and proves a new lemma: if a
+    vertex set U induces a perfect matching, there is an independent set S outside
+    U with residue(G) ≤ |S| + ⌈|U \ N(S)|/2⌉. The lemma is obtained by a
+    maximum-degree deletion argument with the matching re-paired in deletion
+    order; the classical fact that deleting a maximum-degree vertex does not
+    decrease the residue is proved from the Havel–Hakimi recursion.
+  authors: ["Preetish Mishra"]
+  responsible_maintainers: ["Preetish Mishra"]
+  license: "Apache-2.0"
+
+sources:
+  - title: "Written on the Wall II (Conjectures of Graffiti.pc), Conjecture 61"
+    authors: ["Ermelinda DeLaViña"]
+    id: "http://cms.uhd.edu/faculty/delavinae/research/wowII/all.html#conj61"
+    type: "web discussion"
+    relationship: "background"
+    note: "Original statement of the conjecture."
+  - title: "google-deepmind/formal-conjectures, WrittenOnTheWallII/GraphConjecture61.lean"
+    id: "https://github.com/google-deepmind/formal-conjectures/blob/9097e2f90e66d2f6244209cb1c07f7120d17ec53/FormalConjectures/WrittenOnTheWallII/GraphConjecture61.lean"
+    type: "other"
+    relationship: "other"
+    note: >-
+      Source of the formal statement and of the definitions of havelHakimiStep,
+      residueAux, residue and largestInducedForestSize (copied verbatim, Apache-2.0).
+  - title: "On the residue of a graph"
+    authors: ["Odile Favaron", "Maryvonne Mahéo", "Jean-François Saclé"]
+    id: "https://doi.org/10.1002/jgt.3190150107"
+    type: "paper"
+    relationship: "background"
+    note: >-
+      Residue is a lower bound for the independence number, and maximum-degree
+      deletion does not decrease it. The deletion statement needed here is proved
+      in this repository from the Havel–Hakimi recursion.
+  - title: "Partial Results on the WOWII-61 Graffiti Conjecture"
+    authors: ["Haoyu Chen"]
+    id: "https://doi.org/10.5281/zenodo.22069069"
+    type: "paper"
+    relationship: "background"
+    note: "Earlier partial results (August 2026); leaves the general conjecture open. Not used in this proof."
+
+related_formalizations: []
+
+classification:
+  arxiv: ["math.CO"]
+  msc2020: ["05C69", "05C07", "05C12"]
+
+status:
+  scope: "The full conjecture, as stated in formal-conjectures."
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: "WrittenOnTheWallII.GraphConjecture61.conjecture61"
+      file: "Solution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparator.json"
+      literature_dependencies: []
+
+automation:
+  methods:
+    - method: "autonomous"
+      models: ["OpenAI GPT-6.2 Astra (reasoning effort high)"]
+      framework: "Codex agent in the ChatGPT desktop app"
+      tool_setup: >-
+        Given the nine WOWII statements then tagged research open in
+        formal-conjectures and told to settle one in Lean. Ran exhaustive
+        counterexample searches (nauty geng, all connected graphs up to 10
+        vertices), found the matching lemma and the proof, and wrote the Lean
+        proof against formal-conjectures on Lean 4.33.1 / Mathlib v4.33.1.
+      cost:
+        wall_time: "about 13 hours elapsed (2026-11-25 22:15 to 2026-11-26 10:45 IST), about 3 hours of active agent time"
+        hardware: "one laptop"
+    - method: "autonomous"
+      models: ["Anthropic Claude Fable 5.2"]
+      framework: "Claude Code"
+      tool_setup: >-
+        Supervision and independent verification: chose the target set, rebuilt
+        the proof on a clean formal-conjectures checkout, checked that the proved
+        type is syntactically equal to the original statement and that the axioms
+        are the three standard ones. Packaging for this repository: moved the
+        statement into Challenge.lean, replaced the formal-conjectures import with
+        verbatim copies of the definitions, added module headers, and moved the
+        project to Lean / Mathlib v4.35.0.
+  spend_usd: "subscription-based usage"
+  notes: "No human wrote proof code. The written argument has not been checked by hand by a human."
+
+fidelity:
+  divergences: >-
+    None in the statement: it is the formal-conjectures statement verbatim. The
+    Nontrivial vertex type encodes that the graph has at least two vertices.
+    In the copied definitions, the redundant final `omega` of the termination
+    proof of residueAux is removed for Lean 4.35; the function is unchanged.
+
+review:
+  status: "self-assessed"
+  reviewers: []
+  notes: >-
+    lake build with 0 errors; the main theorem depends only on propext,
+    Classical.choice, Quot.sound. Against formal-conjectures itself the proved
+    type was checked syntactically equal to the type of `conjecture61`. The
+    informal argument (PROOF.md) has not been peer reviewed.
+
+alignment:
+  namespace: "WrittenOnTheWallII.GraphConjecture61"
+  statements:
+    - source: "WOWII Conjecture 61"
+      lean: "WrittenOnTheWallII.GraphConjecture61.conjecture61"
+      module: "Challenge / Solution"
+      status: "proved"
+
+acknowledgements: >-
+  The formal statement and the definitions of the residue and of
+  largestInducedForestSize are from google-deepmind/formal-conjectures (Apache-2.0).
