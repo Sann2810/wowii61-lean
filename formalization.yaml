@@ -24,6 +24,21 @@ project:
   license: "Apache-2.0"
 
 sources:
+  - title: "Proof of Written on the Wall II, Conjecture 61: f(G) ≥ residue(G) + ⌈diam(G)/3⌉ for connected graphs"
+    authors: ["Preetish Mishra"]
+    contributors:
+      - name: "OpenAI GPT-6.2 Astra"
+        role: "AI system that found the proof and wrote the Lean formalization"
+      - name: "Anthropic Claude Fable 5.2"
+        role: "AI system that supervised the run, independently rechecked the proof and packaged the repository"
+    id: "https://github.com/Sann2810/wowii61-lean"
+    type: "original-proof"
+    location: "PROOF.md (written argument); Wowii61/Main.lean (Lean proof)"
+    relationship: "other"
+    note: >-
+      This repository is the first presentation of the proof. Searches on
+      26 November 2026 found no earlier complete proof; the statement was tagged
+      research open in formal-conjectures on that date.
   - title: "Written on the Wall II (Conjectures of Graffiti.pc), Conjecture 61"
     authors: ["Ermelinda DeLaViña"]
     id: "http://cms.uhd.edu/faculty/delavinae/research/wowII/all.html#conj61"
