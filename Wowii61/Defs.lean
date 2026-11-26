@@ -18,8 +18,10 @@ limitations under the License.
 -- `FormalConjecturesForMathlib/Combinatorics/SimpleGraph/Residue.lean` (whole file) and the
 -- definition of `largestInducedForestSize` from
 -- `FormalConjecturesForMathlib/Combinatorics/SimpleGraph/Induced.lean`.
--- One change from the source: in the termination proof of `residueAux` the final `omega` is
--- removed, because on Lean 4.35 the preceding `rw` already closes the goal. The function is unchanged.
+-- Two proofs differ from the source; no definition or statement is changed. (1) The helper lemma
+-- `havelHakimiStep_length_cons` is proved by `rw` instead of `grind`, so that its proof term is the
+-- same in `Challenge.lean` and here (Comparator compares it). (2) In the termination proof of
+-- `residueAux` the final `omega` is removed, because on Lean 4.35 the preceding `rw` closes the goal.
 module
 
 public import Mathlib
@@ -63,7 +65,9 @@ is dropped. This is the termination measure for the well-founded `residueAux` be
 -/
 theorem havelHakimiStep_length_cons (d : ℕ) (rest : List ℕ) :
     (havelHakimiStep (d :: rest)).length = rest.length := by
-  grind [havelHakimiStep, List.length_mergeSort]
+  show (((rest.splitAt d).1.map (· - 1) ++ (rest.splitAt d).2).mergeSort (· ≥ ·)).length = rest.length
+  rw [List.splitAt_eq, List.length_mergeSort, List.length_append, List.length_map,
+    ← List.length_append, List.take_append_drop]
 
 /--
 Auxiliary function to calculate the residue recursively.
