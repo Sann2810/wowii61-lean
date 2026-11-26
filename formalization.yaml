@@ -119,8 +119,9 @@ fidelity:
   divergences: >-
     None in the statement: it is the formal-conjectures statement verbatim. The
     Nontrivial vertex type encodes that the graph has at least two vertices.
-    In the copied definitions, the redundant final `omega` of the termination
-    proof of residueAux is removed for Lean 4.35; the function is unchanged.
+    In the copied definitions two proofs differ and no definition changes: the
+    helper lemma havelHakimiStep_length_cons is proved by rw instead of grind, and
+    the redundant final omega of the termination proof of residueAux is removed.
 
 review:
   status: "self-assessed"

@@ -11,8 +11,9 @@ This is Conjecture 61 of E. DeLaViña's *Written on the Wall II* (conjectures of
 formal statement is the one in
 [google-deepmind/formal-conjectures](https://github.com/google-deepmind/formal-conjectures/blob/9097e2f90e66d2f6244209cb1c07f7120d17ec53/FormalConjectures/WrittenOnTheWallII/GraphConjecture61.lean)
 (`conjecture61`, tagged `research open` there on 26 November 2026), copied verbatim with its
-definitions. The only difference is one tactic in the termination proof of `residueAux`
-(a redundant `omega` removed for Lean 4.35); the function is unchanged.
+definitions. Two proofs inside the copied definitions differ from the source (the helper
+lemma `havelHakimiStep_length_cons` uses `rw` instead of `grind`, and a redundant `omega` is
+removed from the termination proof of `residueAux`); no definition or statement is changed.
 
 ## Layout
 

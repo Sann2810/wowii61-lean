@@ -34,9 +34,11 @@ The statement is copied verbatim from google-deepmind/formal-conjectures,
 `largestInducedForestSize` verbatim from `FormalConjecturesForMathlib/Combinatorics/SimpleGraph/`
 (`Residue.lean` and `Induced.lean`), all at commit 9097e2f90e66d2f6244209cb1c07f7120d17ec53.
 `diam`, `Connected` and `IsAcyclic` are Mathlib's. Only the Formal Conjectures attributes
-(`category`, `AMS`) and the sanity checks are left out. One line differs in a proof: the final `omega`
-of the termination proof of `residueAux` is removed, because on Lean 4.35 the preceding `rw`
-already closes the goal; the function is unchanged. The `sorry` marks the statement to be
+(`category`, `AMS`) and the sanity checks are left out. Two proofs differ from the source, and no
+definition or statement is changed: the helper lemma `havelHakimiStep_length_cons` is proved by
+`rw` instead of `grind` (so that its proof term is identical in `Challenge.lean` and in
+`Wowii61/Defs.lean`), and the final `omega` of the termination proof of `residueAux` is removed,
+because on Lean 4.35 the preceding `rw` already closes the goal. The `sorry` marks the statement to be
 proved; it is not a proof.
 -/
 
@@ -79,7 +81,9 @@ is dropped. This is the termination measure for the well-founded `residueAux` be
 -/
 theorem havelHakimiStep_length_cons (d : ℕ) (rest : List ℕ) :
     (havelHakimiStep (d :: rest)).length = rest.length := by
-  grind [havelHakimiStep, List.length_mergeSort]
+  show (((rest.splitAt d).1.map (· - 1) ++ (rest.splitAt d).2).mergeSort (· ≥ ·)).length = rest.length
+  rw [List.splitAt_eq, List.length_mergeSort, List.length_append, List.length_map,
+    ← List.length_append, List.take_append_drop]
 
 /--
 Auxiliary function to calculate the residue recursively.
